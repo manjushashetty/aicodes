@@ -1,0 +1,60 @@
+# Local Beam Search for Travelling Salesman Problem
+
+import random
+
+cities = ['A', 'B', 'C', 'D']
+
+distance = {
+    'A': {'A': 0, 'B': 10, 'C': 15, 'D': 20},
+    'B': {'A': 10, 'B': 0, 'C': 35, 'D': 25},
+    'C': {'A': 15, 'B': 35, 'C': 0, 'D': 30},
+    'D': {'A': 20, 'B': 25, 'C': 30, 'D': 0}
+}
+
+def cost(route):
+    total = 0
+    for i in range(len(route)):
+        total += distance[route[i]][route[(i + 1) % len(route)]]
+    return total
+
+def get_neighbors(route):
+    neighbors = []
+
+    for i in range(len(route)):
+        for j in range(i + 1, len(route)):
+            new_route = route[:]
+            new_route[i], new_route[j] = new_route[j], new_route[i]
+            neighbors.append(new_route)
+
+    return neighbors
+
+def local_beam_search(k, iterations):
+    random.seed(1)
+    beam = []
+    seen = set()
+
+    while len(beam) < k:
+        route = cities[:]
+        random.shuffle(route)
+
+        if tuple(route) not in seen:
+            seen.add(tuple(route))
+            beam.append(route)
+
+    for _ in range(iterations):
+        candidates = {}
+
+        for route in beam:
+            for new_route in get_neighbors(route):
+                candidates[tuple(new_route)] = new_route
+
+        beam = sorted(candidates.values(), key=cost)[:k]
+
+    best = min(beam, key=cost)
+
+    return best, cost(best)
+
+best_route, minimum_distance = local_beam_search(3, 10)
+
+print("Best Route:", best_route + [best_route[0]])
+print("Minimum Distance:", minimum_distance)

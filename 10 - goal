@@ -1,0 +1,36 @@
+# Goal Stack Planning for Blocks World
+
+blocks = ['A', 'B', 'C']
+
+initial = {'A': 'table', 'B': 'A', 'C': 'table'}
+goal = {'A': 'table', 'B': 'table', 'C': 'B'}
+
+def display(state):
+    print(state)
+
+def solve():
+    state = initial.copy()
+    actions = []
+
+    for block in blocks:
+        if state[block] != goal[block]:
+
+            if state[block] != 'table':
+                actions.append("UNSTACK " + block)
+                state[block] = 'table'
+
+            if goal[block] != 'table':
+                actions.append("STACK " + block + " ON " + goal[block])
+                state[block] = goal[block]
+
+    print("Initial State:")
+    display(initial)
+
+    print("\nActions:")
+    for action in actions:
+        print(action)
+
+    print("\nGoal State:")
+    display(state)
+
+solve()

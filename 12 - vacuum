@@ -1,0 +1,22 @@
+# Simple Reflex Agent - Vacuum Cleaner World
+
+rooms = {'A': 'Dirty', 'B': 'Dirty'}
+location = 'A'
+
+while 'Dirty' in rooms.values():
+    print("Current Location:", location)
+    print("Room Status:", rooms)
+
+    if rooms[location] == 'Dirty':
+        print("Action: Suck")
+        rooms[location] = 'Clean'
+
+    elif location == 'A':
+        print("Action: Move Right")
+        location = 'B'
+
+    else:
+        print("Action: Move Left")
+        location = 'A'
+
+print("Both rooms are clean!")

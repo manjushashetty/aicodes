@@ -1,0 +1,32 @@
+# Number Guessing Intelligent Agent
+
+low = 1
+high = 100
+attempts = 0
+
+print("Think of a number between 1 and 100.")
+
+while low <= high:
+    guess = (low + high) // 2
+    attempts += 1
+
+    print("\nMy guess is:", guess)
+    feedback = input("Enter L (Lower), H (Higher), C (Correct): ").lower()
+
+    if feedback == 'c':
+        print("Correct! I guessed your number.")
+        print("Total attempts:", attempts)
+        break
+
+    elif feedback == 'l':
+        high = guess - 1
+
+    elif feedback == 'h':
+        low = guess + 1
+
+    else:
+        print("Invalid input!")
+        attempts -= 1
+
+else:
+    print("Invalid feedback! No number found.")

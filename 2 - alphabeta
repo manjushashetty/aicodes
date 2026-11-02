@@ -1,0 +1,39 @@
+# Alpha-Beta Pruning Algorithm
+
+def minimax(node, depth, alpha, beta, maximizing):
+
+    if depth == 0 or isinstance(node, int):
+        return node
+
+    if maximizing:
+        best = float('-inf')
+
+        for child in node:
+            value = minimax(child, depth-1, alpha, beta, False)
+            best = max(best, value)
+            alpha = max(alpha, best)
+
+            if alpha >= beta:
+                break
+
+        return best
+
+    else:
+        best = float('inf')
+
+        for child in node:
+            value = minimax(child, depth-1, alpha, beta, True)
+            best = min(best, value)
+            beta = min(beta, best)
+
+            if alpha >= beta:
+                break
+
+        return best
+
+
+tree = [[1, 2, 3], [4, 5, 6]]
+
+result = minimax(tree, 2, float('-inf'), float('inf'), True)
+
+print("Optimal Value:", result)

@@ -1,0 +1,48 @@
+# DFS for Water Jug Problem
+
+def dfs(cap1, cap2, target):
+    stack = [((0, 0), [])]
+    visited = set()
+
+    while stack:
+        (a, b), path = stack.pop()
+
+        if (a, b) in visited:
+            continue
+
+        visited.add((a, b))
+        path = path + [(a, b)]
+
+        if a == target or b == target:
+            return path
+
+        states = [
+            (cap1, b),
+            (a, cap2),
+            (0, b),
+            (a, 0),
+            (a - min(a, cap2 - b), b + min(a, cap2 - b)),
+            (a + min(b, cap1 - a), b - min(b, cap1 - a))
+        ]
+
+        for state in states:
+            if state not in visited:
+                stack.append((state, path))
+
+    return None
+
+
+cap1 = 4
+cap2 = 3
+target = 2
+
+solution = dfs(cap1, cap2, target)
+
+if solution:
+    print("Solution found:")
+    for state in solution:
+        print(state)
+
+    print("Total steps:", len(solution) - 1)
+else:
+    print("No solution found")
